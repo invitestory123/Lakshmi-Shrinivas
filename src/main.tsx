@@ -28,28 +28,14 @@ const FALLBACK_MUSIC_SRC = '/assets/wedding-music.mp3';
 // Hero Couple Photo (Romantic Sunset Meadow)
 const HERO_COUPLE_PHOTO = '/assets/gallery/gallery-2-sunset-meadow.jpg';
 
-// Venue Information
-const VENUES = {
-  bengaluru: {
-    id: 'bengaluru',
-    title: 'Sangeet & Reception Venue',
-    name: 'AKIRA ORCHARDS',
-    subtitle: '(Aadya Farms & Leisure)',
-    tag: 'Bengaluru · Sunday, 29 November 2026 · 6:30 PM Onwards',
-    address: '#73/1, Jarkabande Kaval, Yelahanka Hobli, Via Attur Post, Bengaluru 560 106',
-    mapLink: 'https://maps.app.goo.gl/i9owwkGY7QZJa6sj7?g_st=iw',
-    embedUrl: 'https://www.google.com/maps?q=Akira+Orchards,+Yelahanka,+Ramagondanahalli,+Bengaluru,+Karnataka+560089&output=embed'
-  },
-  bagalkot: {
-    id: 'bagalkot',
-    title: 'Wedding Ceremony Venue',
-    name: 'Shri Hemaraddi Mallamma Kalyana Mantapa',
-    subtitle: 'Bagalkot, Karnataka',
-    tag: 'Bagalkot · Sunday, 22 November 2026 · 9:30 AM (Muhurtham)',
-    address: 'Shri Hemaraddi Mallamma Kalyana Mantapa, Bagalkot, Karnataka',
-    mapLink: 'https://share.google/GKkAYUOth7WvYTCw9',
-    embedUrl: 'https://www.google.com/maps?q=Shri+Hemaraddi+Mallamma+Kalyana+Mantapa,+Bagalkot,+Karnataka&output=embed'
-  }
+// Reception Venue Information (AKIRA ORCHARDS, Bengaluru)
+const RECEPTION_VENUE = {
+  name: 'AKIRA ORCHARDS',
+  subtitle: '(Aadya Farms & Leisure)',
+  tag: 'Bengaluru · Sunday, 29 November 2026 · 6:30 PM Onwards',
+  address: '#73/1, Jarkabande Kaval, Yelahanka Hobli, Via Attur Post, Bengaluru 560 106',
+  mapLink: 'https://maps.app.goo.gl/i9owwkGY7QZJa6sj7?g_st=iw',
+  embedUrl: 'https://www.google.com/maps?q=Akira+Orchards,+Yelahanka,+Ramagondanahalli,+Bengaluru,+Karnataka+560089&output=embed'
 };
 
 // Joyful Couple Photos for Gallery & Spotlight
@@ -84,20 +70,8 @@ const GALLERY_PHOTOS = [
   }
 ];
 
-// Events Section (Wedding Ceremony & Evening Program Schedule)
-const CELEBRATION_EVENTS = [
-  {
-    number: 'Wedding',
-    name: 'Wedding (Kalyana Mahotsavam)',
-    tag: 'Auspicious Muhurtham',
-    note: 'The eternal union blessed by Lord Venkateshwara and Goddess Lakshmi with Saptapadi and Dhaare.',
-    date: 'Sunday, 22 November 2026',
-    time: '9:30 AM (Muhurtham)',
-    timeLabel: 'Time',
-    venue: 'Shri Hemaraddi Mallamma Kalyana Mantapa, Bagalkot, Karnataka',
-    icon: '❧',
-    featured: false
-  },
+// Sangeet & Reception Schedule (Only Box 01 & Box 02 — Grand Celebration Dinner removed)
+const RECEPTION_SCHEDULE = [
   {
     number: '01',
     name: 'Sangeet & Melodies',
@@ -107,8 +81,7 @@ const CELEBRATION_EVENTS = [
     time: '6:30 PM Onwards',
     timeLabel: 'Timing',
     venue: 'AKIRA ORCHARDS, Bengaluru',
-    icon: '♫',
-    featured: true
+    icon: '♫'
   },
   {
     number: '02',
@@ -119,37 +92,22 @@ const CELEBRATION_EVENTS = [
     time: '7:30 PM Onwards',
     timeLabel: 'Timing',
     venue: 'AKIRA ORCHARDS, Bengaluru',
-    icon: '✧',
-    featured: true
+    icon: '✧'
   }
 ];
 
-// Add to Calendar helper
-function addEventToCalendar(type: 'reception' | 'wedding') {
-  let title = '';
-  let description = '';
-  let location = '';
-  let dtStart = '';
-  let dtEnd = '';
-
-  if (type === 'reception') {
-    title = 'Lakshmi & Shrinivas — Sangeet & Reception';
-    description = 'Sangeet & Reception of Lakshmi Gangal and Shrinivas Sawkar at AKIRA ORCHARDS, Bengaluru.';
-    location = 'AKIRA ORCHARDS (Aadya Farms & Leisure), Yelahanka, Bengaluru 560106';
-    dtStart = '20261129T130000Z'; // 06:30 PM IST = 01:00 PM UTC
-    dtEnd = '20261129T180000Z';
-  } else {
-    title = 'Lakshmi & Shrinivas — Kalyana Mahotsavam (Wedding)';
-    description = 'Wedding ceremony of Lakshmi Gangal and Shrinivas Sawkar at Bagalkot.';
-    location = 'Shri Hemaraddi Mallamma Kalyana Mantapa, Bagalkot, Karnataka';
-    dtStart = '20261122T040000Z'; // 09:30 AM IST = 04:00 AM UTC
-    dtEnd = '20261122T093000Z';
-  }
+// Add to Calendar helper (Sangeet & Reception on 29 November 2026)
+function addReceptionToCalendar() {
+  const title = 'Lakshmi & Shrinivas — Sangeet & Reception';
+  const description = 'Sangeet & Reception of Lakshmi Gangal and Shrinivas Sawkar at AKIRA ORCHARDS, Bengaluru.';
+  const location = 'AKIRA ORCHARDS (Aadya Farms & Leisure), Yelahanka, Bengaluru 560106';
+  const dtStart = '20261129T130000Z'; // 06:30 PM IST = 01:00 PM UTC
+  const dtEnd = '20261129T180000Z';
 
   const ics = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Lakshmi & Shrinivas Celebrations//EN',
+    'PRODID:-//Lakshmi & Shrinivas Reception//EN',
     'BEGIN:VEVENT',
     `SUMMARY:${title}`,
     `DESCRIPTION:${description}`,
@@ -165,7 +123,7 @@ function addEventToCalendar(type: 'reception' | 'wedding') {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `lakshmi-shrinivas-${type}.ics`;
+  a.download = 'lakshmi-shrinivas-reception.ics';
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -336,7 +294,6 @@ function PetalShower() {
 function App() {
   const [hasOpened, setHasOpened] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [activeVenue, setActiveVenue] = useState<'bengaluru' | 'bagalkot'>('bengaluru');
   const [selectedPhotoModal, setSelectedPhotoModal] = useState<typeof GALLERY_PHOTOS[0] | null>(null);
 
   // Audio Reference
@@ -349,7 +306,7 @@ function App() {
   const [rsvpName, setRsvpName] = useState('');
   const [rsvpPhone, setRsvpPhone] = useState('');
   const [rsvpGuests, setRsvpGuests] = useState('2');
-  const [rsvpAttending, setRsvpAttending] = useState('Sangeet & Reception (Nov 29 · Bengaluru)');
+  const [rsvpAttending, setRsvpAttending] = useState('Joyfully Attending (Sunday, 29 Nov · Bengaluru)');
   const [rsvpMessage, setRsvpMessage] = useState('');
   const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
 
@@ -402,11 +359,11 @@ function App() {
   const handleWhatsAppRSVP = () => {
     const guest = rsvpName.trim() || 'Guest';
     const text = encodeURIComponent(
-      `*RSVP for Lakshmi & Shrinivas*\n\n` +
-      `Namaste! We are happy to confirm our presence.\n` +
+      `*RSVP for Lakshmi & Shrinivas — Sangeet & Reception*\n\n` +
+      `Namaste! We are happy to confirm our presence for the Sangeet & Reception on 29th November 2026 at AKIRA ORCHARDS, Bengaluru.\n` +
       `• *Guest Name:* ${guest}\n` +
       `• *Phone:* ${rsvpPhone.trim() || 'N/A'}\n` +
-      `• *Attending:* ${rsvpAttending}\n` +
+      `• *Status:* ${rsvpAttending}\n` +
       `• *Number of Guests:* ${rsvpGuests}\n` +
       (rsvpMessage.trim() ? `• *Wishes/Blessings:* ${rsvpMessage.trim()}\n` : '') +
       `\nLooking forward to celebrating with Lakshmi & Shrinivas!`
@@ -422,7 +379,7 @@ function App() {
 
   return (
     <main>
-      {/* Background Wedding Music Audio Element (Using music.mp4 from folder) */}
+      {/* Background Music Audio Element (Using music.mp4 from folder) */}
       <audio
         ref={audioRef}
         preload="auto"
@@ -583,7 +540,7 @@ function App() {
           <div className="reception-actions">
             <a
               className="action-btn btn-primary"
-              href={VENUES.bengaluru.mapLink}
+              href={RECEPTION_VENUE.mapLink}
               target="_blank"
               rel="noreferrer"
             >
@@ -593,7 +550,7 @@ function App() {
             <button
               className="action-btn btn-secondary"
               style={{ color: '#fff4d9', borderColor: '#ffd89a' }}
-              onClick={() => addEventToCalendar('reception')}
+              onClick={addReceptionToCalendar}
             >
               <CalendarBlank size={18} weight="bold" />
               Add to Calendar
@@ -644,47 +601,47 @@ function App() {
         </div>
       </section>
 
-      {/* CELEBRATION EVENTS (Matching Image 1: Wedding & Sangeet & Reception) */}
+      {/* SANGEET & RECEPTION PROGRAM SCHEDULE */}
       <section className="events-section">
         <div style={{ textAlign: 'center' }}>
-          <p className="section-kicker">Celebration Schedule</p>
-          <h2 className="section-heading">Wedding & Reception Festivities</h2>
+          <p className="section-kicker">Evening Program</p>
+          <h2 className="section-heading">Sangeet & Reception Schedule</h2>
           <p style={{ color: '#7b4f2c', maxWidth: '520px', margin: '0 auto' }}>
-            We look forward to celebrating every moment of our special days with you.
+            Join us for an unforgettable evening of music, felicitations, and joyous celebration.
           </p>
         </div>
 
         <div className="events-wrapper">
-          {CELEBRATION_EVENTS.map((event) => (
+          {RECEPTION_SCHEDULE.map((item) => (
             <motion.div
-              key={event.name}
-              className={`event-card ${event.featured ? 'featured-event' : ''}`}
+              key={item.name}
+              className="event-card featured-event"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6 }}
             >
               <div className="event-badge-strip">
-                <span className="event-badge-num">{event.number}</span>
-                <span className="event-badge-tag">{event.tag}</span>
+                <span className="event-badge-num">{item.number}</span>
+                <span className="event-badge-tag">{item.tag}</span>
               </div>
               <h3>
-                {event.icon} {event.name}
+                {item.icon} {item.name}
               </h3>
-              <p className="event-note">{event.note}</p>
+              <p className="event-note">{item.note}</p>
 
               <dl className="event-meta-grid">
                 <div className="meta-item">
                   <dt>Date</dt>
-                  <dd>{event.date}</dd>
+                  <dd>{item.date}</dd>
                 </div>
                 <div className="meta-item">
-                  <dt>{event.timeLabel || 'Timing'}</dt>
-                  <dd>{event.time}</dd>
+                  <dt>{item.timeLabel || 'Timing'}</dt>
+                  <dd>{item.time}</dd>
                 </div>
                 <div className="meta-item">
                   <dt>Venue</dt>
-                  <dd>{event.venue}</dd>
+                  <dd>{item.venue}</dd>
                 </div>
               </dl>
             </motion.div>
@@ -692,106 +649,51 @@ function App() {
         </div>
       </section>
 
-      {/* VENUE SECTION WITH GOOGLE MAPS (Tabs for Bengaluru Reception & Bagalkot Wedding) */}
+      {/* RECEPTION VENUE SECTION WITH GOOGLE MAPS */}
       <section className="venue-section">
         <div className="venue-container">
           <p className="section-kicker">Find Your Way</p>
-          <h2 className="section-heading">Celebration Venues</h2>
+          <h2 className="section-heading">Reception Venue</h2>
           <p style={{ color: '#634026' }}>
-            Explore navigation links and maps for our Sangeet & Reception in Bengaluru and Wedding in Bagalkot.
+            Explore navigation links and directions to join us at AKIRA ORCHARDS, Bengaluru.
           </p>
 
-          <div className="venue-tabs">
-            <button
-              className={`venue-tab-btn ${activeVenue === 'bengaluru' ? 'active' : ''}`}
-              onClick={() => setActiveVenue('bengaluru')}
-            >
-              <MapPin size={15} weight="fill" style={{ marginRight: '6px' }} />
-              1. Bengaluru — Sangeet & Reception (29 Nov)
-            </button>
-            <button
-              className={`venue-tab-btn ${activeVenue === 'bagalkot' ? 'active' : ''}`}
-              onClick={() => setActiveVenue('bagalkot')}
-            >
-              <MapPin size={15} weight="fill" style={{ marginRight: '6px' }} />
-              2. Bagalkot — Wedding (22 Nov)
-            </button>
+          <div className="venue-display-card" style={{ marginTop: '24px' }}>
+            <div className="venue-header-info">
+              <span className="venue-dates-tag">{RECEPTION_VENUE.tag}</span>
+              <h3>{RECEPTION_VENUE.name}</h3>
+              <p style={{ fontSize: '13px', color: '#b97816', margin: '2px 0 6px' }}>{RECEPTION_VENUE.subtitle}</p>
+              <p className="venue-address-text">{RECEPTION_VENUE.address}</p>
+            </div>
+
+            <div className="map-iframe-wrapper">
+              <iframe
+                title="Bengaluru Reception Venue Map"
+                src={RECEPTION_VENUE.embedUrl}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+
+            <div className="venue-action-btns">
+              <a
+                className="action-btn btn-primary"
+                href={RECEPTION_VENUE.mapLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <NavigationArrow size={18} weight="bold" />
+                Open Reception Map Link
+              </a>
+              <button
+                className="action-btn btn-secondary"
+                onClick={addReceptionToCalendar}
+              >
+                <CalendarBlank size={18} weight="bold" />
+                Add to Calendar
+              </button>
+            </div>
           </div>
-
-          {activeVenue === 'bengaluru' ? (
-            <div className="venue-display-card" style={{ marginTop: '20px' }}>
-              <div className="venue-header-info">
-                <span className="venue-dates-tag">{VENUES.bengaluru.tag}</span>
-                <h3>{VENUES.bengaluru.name}</h3>
-                <p style={{ fontSize: '13px', color: '#b97816', margin: '2px 0 6px' }}>{VENUES.bengaluru.subtitle}</p>
-                <p className="venue-address-text">{VENUES.bengaluru.address}</p>
-              </div>
-
-              <div className="map-iframe-wrapper">
-                <iframe
-                  title="Bengaluru Reception Venue Map"
-                  src={VENUES.bengaluru.embedUrl}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-
-              <div className="venue-action-btns">
-                <a
-                  className="action-btn btn-primary"
-                  href={VENUES.bengaluru.mapLink}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <NavigationArrow size={18} weight="bold" />
-                  Open Reception Map Link
-                </a>
-                <button
-                  className="action-btn btn-secondary"
-                  onClick={() => addEventToCalendar('reception')}
-                >
-                  <CalendarBlank size={18} weight="bold" />
-                  Add to Calendar
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="venue-display-card" style={{ marginTop: '20px' }}>
-              <div className="venue-header-info">
-                <span className="venue-dates-tag">{VENUES.bagalkot.tag}</span>
-                <h3>{VENUES.bagalkot.name}</h3>
-                <p className="venue-address-text">{VENUES.bagalkot.address}</p>
-              </div>
-
-              <div className="map-iframe-wrapper">
-                <iframe
-                  title="Bagalkot Wedding Venue Map"
-                  src={VENUES.bagalkot.embedUrl}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-
-              <div className="venue-action-btns">
-                <a
-                  className="action-btn btn-primary"
-                  href={VENUES.bagalkot.mapLink}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <NavigationArrow size={18} weight="bold" />
-                  Open Wedding Map Link
-                </a>
-                <button
-                  className="action-btn btn-secondary"
-                  onClick={() => addEventToCalendar('wedding')}
-                >
-                  <CalendarBlank size={18} weight="bold" />
-                  Add to Calendar
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </section>
 
@@ -799,7 +701,7 @@ function App() {
       <section className="rsvp-section">
         <div className="rsvp-box">
           <p className="section-kicker" style={{ textAlign: 'center' }}>Warmest Welcome</p>
-          <h2>RSVP For Our Celebrations</h2>
+          <h2>RSVP For Sangeet & Reception</h2>
           <p className="rsvp-subtitle">
             Your presence will make our celebration truly unforgettable. Please let us know if you can join us!
           </p>
@@ -846,20 +748,17 @@ function App() {
               </div>
 
               <div className="rsvp-form-group">
-                <label>Which Event Will You Attend?</label>
+                <label>Will You Attend?</label>
                 <select
                   className="rsvp-select"
                   value={rsvpAttending}
                   onChange={(e) => setRsvpAttending(e.target.value)}
                 >
-                  <option value="Sangeet & Reception (Nov 29 · Bengaluru)">
-                    Sangeet & Reception (Nov 29 · Bengaluru)
+                  <option value="Joyfully Attending (Sunday, 29 Nov · Bengaluru)">
+                    Joyfully Attending (Sunday, 29 Nov · Bengaluru)
                   </option>
-                  <option value="Both Wedding & Reception (Nov 22 & 29)">
-                    Both Celebrations (Wedding Nov 22 & Reception Nov 29)
-                  </option>
-                  <option value="Wedding Ceremony (Nov 22 · Bagalkot)">
-                    Wedding Ceremony (Nov 22 · Bagalkot)
+                  <option value="Regretfully Unable to Attend">
+                    Regretfully Unable to Attend
                   </option>
                 </select>
               </div>
