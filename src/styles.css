@@ -47,7 +47,174 @@ button {
   cursor: pointer;
 }
 
-/* Audio ambient visualizer pill */
+/* FULL-PAGE SANGEET & RECEPTION SHOWCASE */
+.reception-fullpage-showcase {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(175deg, #180914 0%, #291021 45%, #140710 100%);
+  color: var(--ivory);
+  padding: 70px 20px 60px;
+  text-align: center;
+  overflow: hidden;
+  border-top: 1px solid var(--border-gold);
+  border-bottom: 1px solid var(--border-gold);
+}
+.reception-glow-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(200, 70, 110, 0.22) 0%, rgba(244, 213, 141, 0.08) 50%, transparent 75%);
+  pointer-events: none;
+}
+.reception-sparkle-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(255, 230, 160, 0.5) 1px, transparent 2px),
+    radial-gradient(circle at 85% 25%, rgba(255, 200, 140, 0.5) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 25% 70%, rgba(255, 230, 160, 0.4) 1px, transparent 2px),
+    radial-gradient(circle at 80% 80%, rgba(255, 220, 150, 0.4) 1.5px, transparent 2.5px);
+  background-size: 180px 180px;
+  animation: starryGlint 8s infinite alternate ease-in-out;
+}
+@keyframes starryGlint {
+  0% { opacity: 0.5; transform: translateY(0); }
+  100% { opacity: 0.95; transform: translateY(-10px); }
+}
+
+.reception-content-wrapper {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.reception-top-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: rgba(200, 60, 95, 0.2);
+  border: 1px solid rgba(255, 180, 200, 0.4);
+  color: #ffc2d1;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.reception-photo-hero {
+  position: relative;
+  width: min(92vw, 420px);
+  border-radius: 24px;
+  padding: 8px;
+  background: linear-gradient(145deg, #d4a34b, #8c1e35, #ffd89a);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(200, 70, 110, 0.4);
+  margin-bottom: 26px;
+  transition: transform 0.3s ease;
+}
+.reception-photo-hero:hover {
+  transform: scale(1.02);
+}
+.reception-photo-inner {
+  border-radius: 18px;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+.reception-photo-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+.reception-title {
+  font-family: 'Italiana', serif;
+  font-size: clamp(38px, 9vw, 64px);
+  line-height: 1.05;
+  color: #fff4d9;
+  margin: 6px 0 10px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+}
+.reception-subtitle {
+  font-family: 'Parisienne', cursive;
+  font-size: clamp(22px, 5vw, 30px);
+  color: #ffb4c6;
+  margin: 0 0 24px;
+}
+
+/* Reception Schedule Card */
+.reception-details-box {
+  background: rgba(45, 18, 35, 0.82);
+  border: 1.5px solid rgba(212, 163, 75, 0.6);
+  border-radius: 20px;
+  padding: 24px 28px;
+  width: 100%;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  margin-bottom: 24px;
+}
+.reception-date-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-size: 17px;
+  letter-spacing: 0.12em;
+  color: #ffd89a;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+.reception-date-row i {
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+.reception-time-badge {
+  display: inline-block;
+  background: rgba(255, 216, 154, 0.15);
+  border: 1px solid rgba(255, 216, 154, 0.35);
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: #ffe6bd;
+  margin-bottom: 16px;
+}
+.reception-venue-title {
+  font-family: 'Italiana', serif;
+  font-size: 26px;
+  color: #fff4d9;
+  margin: 0 0 4px;
+}
+.reception-venue-sub {
+  font-size: 13.5px;
+  color: #e4c59a;
+  margin: 0 0 8px;
+}
+.reception-address {
+  font-size: 13px;
+  color: #d8b8a0;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.reception-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
 .ambient-bar {
   position: fixed;
   top: 16px;

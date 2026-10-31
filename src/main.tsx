@@ -14,52 +14,36 @@ import {
   WhatsappLogo,
   CheckCircle,
   NavigationArrow,
-  Images,
-  X,
-  Eye
+  X
 } from '@phosphor-icons/react';
 import './styles.css';
 
-// Auspicious Wedding Target Date (Muhurtham)
-const WEDDING_TARGET = new Date('2026-11-22T09:30:00+05:30');
+// Target Date: Sangeet & Reception on 29 November 2026, 6:30 PM
+const RECEPTION_TARGET_DATE = new Date('2026-11-29T18:30:00+05:30');
 
-// Music Sources (User requested music.mp4 from folder)
+// Music Sources (Using music.mp4 from folder)
 const MUSIC_MP4_SRC = '/assets/music.mp4';
 const FALLBACK_MUSIC_SRC = '/assets/wedding-music.mp3';
 
-// Sacred Temple Artworks
-const ARTWORKS = [
-  {
-    id: 'srinivasa-lakshmi',
-    title: 'Srinivasa & Lakshmi',
-    role: 'Recommended for Main Hero',
-    badge: 'Primary Hero',
-    src: '/assets/divine-couple-srinivasa-lakshmi.jpg',
-    description: 'Lord Srinivasa & Goddess Mahalakshmi holding a sacred lotus flower before the golden pillars and divine Thirunamam.'
-  },
-  {
-    id: 'shankha-chakra',
-    title: 'Shankha & Chakra Hands',
-    role: 'Sacred Vows & Engagement',
-    badge: 'Panigrahana',
-    src: '/assets/divine-hands-shankha-chakra.jpg',
-    description: 'The divine hands adorned with mehndi, fresh jasmine, tulsi, and jewels, holding the holy Sudarshana Chakra and Shankha.'
-  },
-  {
-    id: 'kalyana-homa',
-    title: 'Vivaha Kalyana Homa',
-    role: 'Ceremony & Agni Rituals',
-    badge: 'Wedding Rituals',
-    src: '/assets/traditional-kalyana-homa.jpg',
-    description: 'Traditional painting of Lord Vishnu and Goddess Jaya Lakshmi around the sacred wedding fire and deepas.'
-  }
-];
+// Main God & Goddess Photo
+const PRIMARY_DIVINE_HERO = '/assets/divine-couple-srinivasa-lakshmi.jpg';
 
-// Couple Photo Gallery
+// Venue Information
+const RECEPTION_VENUE = {
+  name: 'AKIRA ORCHARDS',
+  subtitle: '(Aadya Farms & Leisure)',
+  address: '#73/1, Jarkabande Kaval, Yelahanka Hobli, Via Attur Post, Bengaluru 560 106',
+  date: 'Sunday, 29 November 2026',
+  time: '6:30 PM Onwards',
+  mapLink: 'https://maps.app.goo.gl/i9owwkGY7QZJa6sj7?g_st=iw',
+  embedUrl: 'https://www.google.com/maps?q=Akira+Orchards,+Yelahanka,+Ramagondanahalli,+Bengaluru,+Karnataka+560089&output=embed'
+};
+
+// Joyful Couple Photos for Gallery & Spotlight
 const GALLERY_PHOTOS = [
   {
     id: 'red-glamour',
-    title: 'Royalty & Grace',
+    title: 'A Royal Celebration',
     caption: 'Dressed in radiant smiles and vibrant red',
     badge: 'Lakshmi & Shrinivas',
     src: '/assets/gallery/gallery-1-red-glamour.jpg'
@@ -87,114 +71,43 @@ const GALLERY_PHOTOS = [
   }
 ];
 
-// Schedule of Events
-const EVENTS = [
+// Evening Festivities Timeline
+const RECEPTION_SCHEDULE = [
   {
-    name: 'Haldi & Mehendi',
-    date: 'Saturday, 21 November 2026',
-    time: '10:30 AM onwards',
-    venue: 'Shri Hemaraddi Mallamma Kalyana Mantapa',
-    location: 'Bagalkot, Karnataka',
-    note: 'Fragrant turmeric blessings, joyful songs, and intricate bridal mehndi designs.',
-    icon: '❋',
-    tag: 'Pre-Wedding Celebration'
+    number: '01',
+    name: 'Sangeet & Melodies',
+    time: '6:30 PM Onwards',
+    note: 'An enchanting musical beginning with lively rhythms, dance, and joyous celebrations.',
+    icon: '♫'
   },
   {
-    name: 'Engagement (Nischitartha)',
-    date: 'Saturday, 21 November 2026',
-    time: '6:00 PM onwards',
-    venue: 'Shri Hemaraddi Mallamma Kalyana Mantapa',
-    location: 'Bagalkot, Karnataka',
-    note: 'The auspicious ring exchange and sacred promises uniting two loving families.',
-    icon: '✦',
-    tag: 'Sacred Ring Ceremony'
+    number: '02',
+    name: 'Reception & Felicitations',
+    time: '7:30 PM Onwards',
+    note: 'Warm welcomes, celebratory toasts, photography, and blessings with our beloved guests.',
+    icon: '✧'
   },
   {
-    name: 'Wedding (Kalyana Mahotsavam)',
-    date: 'Sunday, 22 November 2026',
-    time: '9:30 AM (Muhurtham)',
-    venue: 'Shri Hemaraddi Mallamma Kalyana Mantapa',
-    location: 'Bagalkot, Karnataka',
-    note: 'The eternal union blessed by Lord Venkateshwara and Goddess Lakshmi with Saptapadi and Dhaare.',
-    icon: '❧',
-    tag: 'Auspicious Muhurtham',
-    featured: true
-  },
-  {
-    name: 'Sangeet & Grand Reception',
-    date: 'Sunday, 29 November 2026',
-    time: '6:30 PM onwards',
-    venue: 'AKIRA ORCHARDS (Aadya Farms & Leisure)',
-    location: '#73/1, Jarkabande Kaval, Yelahanka Hobli, Via Attur Post, Bengaluru 560 106',
-    note: 'An enchanting evening of music, dinner, dancing, and heartfelt celebrations with our loved ones.',
-    icon: '✧',
-    tag: 'Musical Evening & Feast',
-    featured: true
+    number: '03',
+    name: 'Grand Celebration Dinner',
+    time: '8:00 PM Onwards',
+    note: 'A lavish gourmet culinary banquet served amidst an open-air starry garden.',
+    icon: '❋'
   }
 ];
 
-// Venues Details
-const VENUES = {
-  bagalkot: {
-    id: 'bagalkot',
-    title: 'Wedding & Engagement Venue',
-    name: 'Shri Hemaraddi Mallamma Kalyana Mantapa',
-    tag: 'Bagalkot Celebrations · 21 & 22 November 2026',
-    address: 'Shri Hemaraddi Mallamma Kalyana Mantapa, Bagalkot, Karnataka',
-    mapLink: 'https://share.google/GKkAYUOth7WvYTCw9',
-    embedUrl: 'https://www.google.com/maps?q=Shri+Hemaraddi+Mallamma+Kalyana+Mantapa,+Bagalkot,+Karnataka&output=embed',
-    eventsHeld: 'Haldi, Mehendi, Engagement & Kalyana Mahotsavam'
-  },
-  bengaluru: {
-    id: 'bengaluru',
-    title: 'Sangeet & Reception Venue',
-    name: 'AKIRA ORCHARDS (Aadya Farms & Leisure)',
-    tag: 'Bengaluru Celebrations · 29 November 2026',
-    address: '#73/1, Jarkabande Kaval, Yelahanka Hobli, Via Attur Post, Bengaluru 560 106',
-    mapLink: 'https://maps.app.goo.gl/i9owwkGY7QZJa6sj7?g_st=iw',
-    embedUrl: 'https://www.google.com/maps?q=Akira+Orchards,+Yelahanka,+Ramagondanahalli,+Bengaluru,+Karnataka 560089&output=embed',
-    eventsHeld: 'Sangeet Musical Evening & Grand Reception Dinner'
-  }
-};
-
-// Calendar generator helper
-function createCalendarInvite(type: 'wedding' | 'reception' | 'all') {
-  let title = '';
-  let description = '';
-  let location = '';
-  let dtStart = '';
-  let dtEnd = '';
-
-  if (type === 'wedding') {
-    title = 'Lakshmi & Shrinivas — Kalyana Mahotsavam (Wedding)';
-    description = 'Wedding ceremony of Lakshmi Gangal and Shrinivas Sawkar at Bagalkot.';
-    location = 'Shri Hemaraddi Mallamma Kalyana Mantapa, Bagalkot, Karnataka';
-    dtStart = '20261122T040000Z'; // 09:30 AM IST = 04:00 AM UTC
-    dtEnd = '20261122T093000Z';
-  } else if (type === 'reception') {
-    title = 'Lakshmi & Shrinivas — Sangeet & Reception';
-    description = 'Sangeet & Reception of Lakshmi Gangal and Shrinivas Sawkar at AKIRA ORCHARDS, Bengaluru.';
-    location = 'AKIRA ORCHARDS (Aadya Farms & Leisure), Yelahanka, Bengaluru 560106';
-    dtStart = '20261129T130000Z'; // 06:30 PM IST = 01:00 PM UTC
-    dtEnd = '20261129T173000Z';
-  } else {
-    title = 'Lakshmi & Shrinivas — Wedding Celebrations';
-    description = 'Wedding Celebrations in Bagalkot (21-22 Nov) and Reception in Bengaluru (29 Nov).';
-    location = 'Bagalkot & Bengaluru';
-    dtStart = '20261121T050000Z';
-    dtEnd = '20261129T173000Z';
-  }
-
+// Add to Calendar helper
+function addReceptionToCalendar() {
   const ics = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Lakshmi & Shrinivas Wedding//EN',
+    'PRODID:-//Lakshmi & Shrinivas Reception//EN',
     'BEGIN:VEVENT',
-    `SUMMARY:${title}`,
-    `DESCRIPTION:${description}`,
-    `LOCATION:${location}`,
-    `DTSTART:${dtStart}`,
-    `DTEnd:${dtEnd}`,
+    'SUMMARY:Lakshmi & Shrinivas — Sangeet & Reception',
+    'DESCRIPTION:Sangeet & Reception of Lakshmi Gangal and Shrinivas Sawkar at AKIRA ORCHARDS, Bengaluru.',
+    'LOCATION:AKIRA ORCHARDS (Aadya Farms & Leisure), Yelahanka, Bengaluru 560106',
+    'DTSTART:20261129T130000Z', // 06:30 PM IST = 01:00 PM UTC
+    'DTEND:20261129T180000Z',
     'STATUS:CONFIRMED',
     'END:VEVENT',
     'END:VCALENDAR'
@@ -204,12 +117,12 @@ function createCalendarInvite(type: 'wedding' | 'reception' | 'all') {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `lakshmi-shrinivas-${type}.ics`;
+  a.download = 'lakshmi-shrinivas-reception.ics';
   a.click();
   URL.revokeObjectURL(url);
 }
 
-// Countdown component
+// Countdown timer
 function CountdownTimer() {
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
@@ -217,7 +130,7 @@ function CountdownTimer() {
     return () => clearInterval(timer);
   }, []);
 
-  const diff = Math.max(0, WEDDING_TARGET.getTime() - now);
+  const diff = Math.max(0, RECEPTION_TARGET_DATE.getTime() - now);
   const days = Math.floor(diff / 86400000);
   const hours = Math.floor(diff / 3600000) % 24;
   const mins = Math.floor(diff / 60000) % 60;
@@ -269,7 +182,6 @@ function ScratchCardDate() {
     if (!ctx) return;
     ctx.scale(ratio, ratio);
 
-    // Ornate gold foil gradient
     const grad = ctx.createLinearGradient(0, 0, rect.width, rect.height);
     grad.addColorStop(0, '#c98b27');
     grad.addColorStop(0.3, '#f9dc98');
@@ -279,11 +191,10 @@ function ScratchCardDate() {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, rect.width, rect.height);
 
-    // Auspicious motif pattern
     ctx.fillStyle = '#4f2c0f';
     ctx.textAlign = 'center';
     ctx.font = '600 11px Marcellus, serif';
-    ctx.fillText('SCRATCH TO REVEAL AUSPICIOUS DATE', rect.width / 2, rect.height / 2 - 12);
+    ctx.fillText('SCRATCH TO REVEAL RECEPTION DATE', rect.width / 2, rect.height / 2 - 12);
     ctx.font = '28px serif';
     ctx.fillText('🪷', rect.width / 2, rect.height / 2 + 24);
   }, []);
@@ -312,14 +223,14 @@ function ScratchCardDate() {
 
   return (
     <section className="scratch-section">
-      <p className="section-kicker">Auspicious Muhurtham</p>
-      <h2 className="section-heading">Saved in the Stars</h2>
+      <p className="section-kicker">Sangeet & Reception</p>
+      <h2 className="section-heading">Save Our Celebration Date</h2>
       <div className="scratch-card-wrapper">
         <div className="scratch-revealed-bg">
-          <small>Sunday · Kalyana Muhurtham</small>
-          <b>22</b>
+          <small>Sunday · Sangeet & Reception</small>
+          <b>29</b>
           <span>November · 2026</span>
-          <em>Bagalkot, Karnataka</em>
+          <em>AKIRA ORCHARDS · Bengaluru</em>
         </div>
         <canvas
           ref={canvasRef}
@@ -334,7 +245,7 @@ function ScratchCardDate() {
         />
       </div>
       <p className="scratch-instruction">
-        {revealed ? 'We eagerly await your presence with blessings ♡' : 'Gently swipe or rub to reveal the wedding date'}
+        {revealed ? 'We eagerly await your joyful presence ♡' : 'Gently swipe or rub to reveal the reception date'}
       </p>
     </section>
   );
@@ -376,8 +287,6 @@ function PetalShower() {
 // Main App Component
 function App() {
   const [hasOpened, setHasOpened] = useState(false);
-  const [selectedHeroArt, setSelectedHeroArt] = useState(ARTWORKS[0].id);
-  const [activeVenue, setActiveVenue] = useState<'bagalkot' | 'bengaluru'>('bagalkot');
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [showBlessingModal, setShowBlessingModal] = useState(false);
   const [selectedPhotoModal, setSelectedPhotoModal] = useState<typeof GALLERY_PHOTOS[0] | null>(null);
@@ -392,15 +301,11 @@ function App() {
   const [rsvpName, setRsvpName] = useState('');
   const [rsvpPhone, setRsvpPhone] = useState('');
   const [rsvpGuests, setRsvpGuests] = useState('2');
-  const [rsvpAttending, setRsvpAttending] = useState('All Celebrations (Bagalkot & Bengaluru)');
   const [rsvpMessage, setRsvpMessage] = useState('');
   const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
 
   const { scrollYProgress } = useScroll();
   const reduceMotion = useReducedMotion();
-
-  // Active Hero Artwork
-  const currentHeroArtwork = ARTWORKS.find((a) => a.id === selectedHeroArt) || ARTWORKS[0];
 
   // Mouse move tilt effect
   const handleStageMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -452,14 +357,13 @@ function App() {
   const handleWhatsAppRSVP = () => {
     const guest = rsvpName.trim() || 'Guest';
     const text = encodeURIComponent(
-      `*Wedding RSVP for Lakshmi & Shrinivas*\n\n` +
-      `Namaste! We are happy to confirm our presence.\n` +
+      `*Sangeet & Reception RSVP for Lakshmi & Shrinivas*\n\n` +
+      `Namaste! We are happy to confirm our presence for the Sangeet & Reception on 29th November 2026.\n` +
       `• *Guest Name:* ${guest}\n` +
       `• *Phone:* ${rsvpPhone.trim() || 'N/A'}\n` +
-      `• *Attending:* ${rsvpAttending}\n` +
       `• *Number of Guests:* ${rsvpGuests}\n` +
-      (rsvpMessage.trim() ? `• *Blessings/Wishes:* ${rsvpMessage.trim()}\n` : '') +
-      `\nHearty congratulations and warmest wishes to Lakshmi & Shrinivas!`
+      (rsvpMessage.trim() ? `• *Wishes/Blessings:* ${rsvpMessage.trim()}\n` : '') +
+      `\nLooking forward to celebrating with Lakshmi & Shrinivas!`
     );
     window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
   };
@@ -472,7 +376,7 @@ function App() {
 
   return (
     <main>
-      {/* Background Wedding Music Audio Element (Using music.mp4 from workspace) */}
+      {/* Background Wedding Music Audio Element (Using music.mp4 from folder) */}
       <audio
         ref={audioRef}
         preload="auto"
@@ -492,15 +396,15 @@ function App() {
       <button
         className={`ambient-bar ${!isAudioPlaying ? 'muted' : ''}`}
         onClick={toggleMusic}
-        aria-label="Toggle wedding music"
-        title={isAudioPlaying ? 'Mute Wedding Music' : 'Play Wedding Music'}
+        aria-label="Toggle music"
+        title={isAudioPlaying ? 'Mute Music' : 'Play Music'}
       >
         {isAudioPlaying ? (
           <SpeakerHigh size={18} weight="fill" color="#ffd54f" />
         ) : (
           <SpeakerSlash size={18} weight="bold" color="#e0a33c" />
         )}
-        <span>{isAudioPlaying ? 'Wedding Music Playing' : 'Play Music'}</span>
+        <span>{isAudioPlaying ? 'Music Playing' : 'Play Music'}</span>
         <div className="audio-waves" aria-hidden="true">
           <span /><span /><span /><span />
         </div>
@@ -521,10 +425,13 @@ function App() {
               <h1>
                 Lakshmi <em>&</em> Shrinivas
               </h1>
-              <p className="invite-text">cordially invite you to celebrate our wedding</p>
+              <p className="invite-text">cordially invite you to celebrate our</p>
+              <h2 style={{ fontFamily: 'Italiana, serif', fontSize: '26px', color: '#b83350', margin: '4px 0 14px' }}>
+                Sangeet & Reception
+              </h2>
 
               <div className="dates-chip">
-                <span>21 · 22 · 29 November 2026</span>
+                <span>Sunday · 29 November 2026 · Bengaluru</span>
               </div>
 
               <motion.button
@@ -545,12 +452,12 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION WITH GOD & GODDESS ANIMATION */}
+      {/* HERO SECTION WITH GOD & GODDESS PHOTO & MOVEMENT ANIMATION */}
       <section className="hero">
         {/* Background Atmosphere */}
         <div className="hero-backdrop" aria-hidden="true">
           <img
-            src={currentHeroArtwork.src}
+            src={PRIMARY_DIVINE_HERO}
             alt="Divine temple sanctuary backdrop"
             className="hero-backdrop-img"
           />
@@ -588,10 +495,10 @@ function App() {
           </h1>
           <div className="hero-dates-strip">
             <i />
-            <span>21 · 22 · 29 November 2026</span>
+            <span>Sangeet & Reception · 29 November 2026</span>
             <i />
           </div>
-          <div className="hero-locations">Bagalkot & Bengaluru, Karnataka</div>
+          <div className="hero-locations">Bengaluru, Karnataka</div>
         </motion.div>
 
         {/* Main Divine Portrait Frame with Interactive Movement & Shimmer */}
@@ -607,7 +514,7 @@ function App() {
         >
           <div className="divine-art-inner">
             <img
-              src={currentHeroArtwork.src}
+              src={PRIMARY_DIVINE_HERO}
               alt="Lord Srinivasa and Goddess Lakshmi"
               className="divine-main-img"
             />
@@ -638,35 +545,85 @@ function App() {
 
         {/* Scroll down cue */}
         <div className="scroll-indicator">
-          <span>Explore Celebrations</span>
+          <span>Explore Sangeet & Reception</span>
           <ArrowDown size={15} weight="bold" />
         </div>
       </section>
 
-      {/* PHOTO SELECTOR & ADVICE (Answering: "Which photo will be nice for that?") */}
-      <section className="photo-chooser-banner">
-        <div className="photo-chooser-title">Divine Artworks & Perspectives</div>
-        <p className="photo-chooser-desc">
-          You can preview any of the 3 sacred artworks as the Main Hero. Our recommended harmony features{' '}
-          <strong>Srinivasa & Lakshmi</strong> for the Hero, <strong>Shankha & Chakra</strong> for the Engagement/Vows, and{' '}
-          <strong>Kalyana Homa</strong> for the Ceremony.
-        </p>
-        <div className="photo-options-grid">
-          {ARTWORKS.map((art) => (
-            <div
-              key={art.id}
-              className={`photo-opt-card ${selectedHeroArt === art.id ? 'active' : ''}`}
-              onClick={() => setSelectedHeroArt(art.id)}
-            >
-              <img src={art.src} alt={art.title} />
-              <span>{art.title}</span>
-              <b>{art.badge}</b>
+      {/* FULL-PAGE SANGEET & RECEPTION SHOWCASE (100% Highlighted) */}
+      <section className="reception-fullpage-showcase" id="reception-showcase">
+        <div className="reception-glow-bg" />
+        <div className="reception-sparkle-stars" />
+
+        <div className="reception-content-wrapper">
+          <span className="reception-top-pill">
+            <Sparkle size={14} weight="fill" />
+            Celebration Evening · Bengaluru
+          </span>
+
+          {/* Joyful Couple Photo Spotlight */}
+          <div className="reception-photo-hero">
+            <div className="reception-photo-inner">
+              <img
+                src="/assets/gallery/gallery-1-red-glamour.jpg"
+                alt="Lakshmi and Shrinivas in elegant evening attire"
+              />
             </div>
-          ))}
+          </div>
+
+          <h2 className="reception-title">Sangeet & Reception</h2>
+          <p className="reception-subtitle">
+            An enchanting evening of music, joyful dance & celebratory feast
+          </p>
+
+          {/* Event Time & Venue Box */}
+          <div className="reception-details-box">
+            <div className="reception-date-row">
+              <i />
+              <span>Sunday · 29 November 2026</span>
+              <i />
+            </div>
+            <span className="reception-time-badge">6:30 PM Onwards</span>
+
+            <h3 className="reception-venue-title">{RECEPTION_VENUE.name}</h3>
+            <p className="reception-venue-sub">{RECEPTION_VENUE.subtitle}</p>
+            <p className="reception-address">{RECEPTION_VENUE.address}</p>
+          </div>
+
+          {/* Dedicated Action Buttons */}
+          <div className="reception-actions">
+            <a
+              className="action-btn btn-primary"
+              href={RECEPTION_VENUE.mapLink}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <NavigationArrow size={18} weight="bold" />
+              Open Reception Map Link
+            </a>
+            <button
+              className="action-btn btn-secondary"
+              style={{ color: '#fff4d9', borderColor: '#ffd89a' }}
+              onClick={addReceptionToCalendar}
+            >
+              <CalendarBlank size={18} weight="bold" />
+              Add to Calendar
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* COUPLE PHOTO GALLERY SECTION (Newly Added With User Photos!) */}
+      {/* COUNTDOWN SECTION (Targeted to 29th November Sangeet & Reception) */}
+      <section className="countdown-section">
+        <p className="section-kicker">Until the Sangeet & Reception</p>
+        <h2 className="section-heading">Countdown to 29th November</h2>
+        <CountdownTimer />
+      </section>
+
+      {/* INTERACTIVE SCRATCH TO REVEAL DATE (Sunday 29 November 2026) */}
+      <ScratchCardDate />
+
+      {/* COUPLE PHOTO GALLERY SECTION */}
       <section className="gallery-section">
         <div className="gallery-container">
           <p className="section-kicker">Moments of Togetherness</p>
@@ -698,105 +655,47 @@ function App() {
         </div>
       </section>
 
-      {/* COUNTDOWN SECTION */}
-      <section className="countdown-section">
-        <p className="section-kicker">Until we take our sacred vows</p>
-        <h2 className="section-heading">Counting Every Auspicious Moment</h2>
-        <CountdownTimer />
-      </section>
-
-      {/* INTERACTIVE SCRATCH TO REVEAL DATE */}
-      <ScratchCardDate />
-
-      {/* STORY & SACRED VOWS (Photo 2: Shankha & Chakra Divine Hands) */}
-      <section className="story-section">
-        <div className="story-container">
-          <FlowerLotus size={32} weight="thin" color="#b83350" />
-          <p className="story-script-heading">The Divine Union</p>
-          <h2 className="section-heading">Named in Reverence, United in Love</h2>
-
-          <div className="divine-hands-feature">
-            <img
-              src="/assets/divine-hands-shankha-chakra.jpg"
-              alt="Sacred hands holding the holy Shankha and Sudarshana Chakra adorned with mehendi and tulsi"
-            />
-          </div>
-
-          <p className="story-body-text">
-            When two souls are drawn together by divine destiny, every ritual becomes a blessing.
-            Carrying the auspicious names of Goddess Mahalakshmi and Lord Srinivasa, our journey begins
-            with sacred promises, traditional values, and the cherished love of our families.
-          </p>
-          <div className="couple-signatures">Lakshmi & Shrinivas</div>
-        </div>
-      </section>
-
-      {/* WEDDING CEREMONY & SACRED AGNI (Photo 3: Traditional Kalyana Homa) */}
-      <section className="ceremony-section">
-        <div className="ceremony-grid">
-          <div className="ceremony-art-wrapper">
-            <img
-              src="/assets/traditional-kalyana-homa.jpg"
-              alt="Lord Vishnu and Goddess Jaya Lakshmi at the sacred Kalyana Agni Homa"
-            />
-            <div className="homa-fire-glow" aria-hidden="true" />
-          </div>
-
-          <div className="ceremony-text">
-            <p className="section-kicker">Kalyana Mahotsavam</p>
-            <h2 className="section-heading">Before the Sacred Fire</h2>
-            <p>
-              With holy Vedic chants, the fragrance of sandalwood and camphor, and seven sacred steps (Saptapadi),
-              Lord Srinivasa and Goddess Lakshmi stand as the eternal guardians of our lifelong union.
-            </p>
-            <p style={{ marginTop: '14px', fontSize: '13px', color: '#ffd89a', letterSpacing: '0.08em' }}>
-              ✦ Dhaare Muhurtham · 22nd November 2026 · Bagalkot ✦
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* WEDDING FESTIVITIES & EVENTS TIMELINE */}
+      {/* EVENING PROGRAM & SCHEDULE */}
       <section className="events-section">
         <div style={{ textAlign: 'center' }}>
-          <p className="section-kicker">Celebration Schedule</p>
-          <h2 className="section-heading">Festivities of Love & Tradition</h2>
+          <p className="section-kicker">Evening Festivities</p>
+          <h2 className="section-heading">Celebration Program</h2>
           <p style={{ color: '#7b4f2c', maxWidth: '520px', margin: '0 auto' }}>
-            Four cherished milestones across Bagalkot and Bengaluru. We look forward to celebrating every moment with you.
+            An evening crafted with melodies, congratulations, and delightful dining.
           </p>
         </div>
 
         <div className="events-wrapper">
-          {EVENTS.map((event, idx) => (
+          {RECEPTION_SCHEDULE.map((item, idx) => (
             <motion.div
-              key={event.name}
-              className={`event-card ${event.featured ? 'featured-event' : ''}`}
+              key={item.name}
+              className={`event-card ${idx === 0 ? 'featured-event' : ''}`}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
             >
               <div className="event-badge-strip">
-                <span className="event-badge-num">0{idx + 1}</span>
-                <span className="event-badge-tag">{event.tag}</span>
+                <span className="event-badge-num">{item.number}</span>
+                <span className="event-badge-tag">{item.time}</span>
               </div>
               <h3>
-                {event.icon} {event.name}
+                {item.icon} {item.name}
               </h3>
-              <p className="event-note">{event.note}</p>
+              <p className="event-note">{item.note}</p>
 
               <dl className="event-meta-grid">
                 <div className="meta-item">
                   <dt>Date</dt>
-                  <dd>{event.date}</dd>
+                  <dd>Sunday, 29 November 2026</dd>
                 </div>
                 <div className="meta-item">
-                  <dt>Time</dt>
-                  <dd>{event.time}</dd>
+                  <dt>Timing</dt>
+                  <dd>{item.time}</dd>
                 </div>
                 <div className="meta-item">
                   <dt>Venue</dt>
-                  <dd>{event.venue}, {event.location}</dd>
+                  <dd>{RECEPTION_VENUE.name}, Bengaluru</dd>
                 </div>
               </dl>
             </motion.div>
@@ -804,130 +703,61 @@ function App() {
         </div>
       </section>
 
-      {/* DUAL VENUE SECTION WITH INTERACTIVE MAPS & CALENDAR */}
+      {/* VENUE SECTION WITH GOOGLE MAPS */}
       <section className="venue-section">
         <div className="venue-container">
           <p className="section-kicker">Find Your Way</p>
-          <h2 className="section-heading">Celebration Venues</h2>
+          <h2 className="section-heading">Reception Venue</h2>
           <p style={{ color: '#634026' }}>
-            Explore navigation links and maps for our wedding in Bagalkot and reception in Bengaluru.
+            Explore navigation links and maps to join us at AKIRA ORCHARDS, Bengaluru.
           </p>
 
-          <div className="venue-tabs">
-            <button
-              className={`venue-tab-btn ${activeVenue === 'bagalkot' ? 'active' : ''}`}
-              onClick={() => setActiveVenue('bagalkot')}
-            >
-              <MapPin size={15} weight="fill" style={{ marginRight: '6px' }} />
-              1. Bagalkot — Wedding & Engagement
-            </button>
-            <button
-              className={`venue-tab-btn ${activeVenue === 'bengaluru' ? 'active' : ''}`}
-              onClick={() => setActiveVenue('bengaluru')}
-            >
-              <MapPin size={15} weight="fill" style={{ marginRight: '6px' }} />
-              2. Bengaluru — Sangeet & Reception
-            </button>
+          <div className="venue-display-card" style={{ marginTop: '24px' }}>
+            <div className="venue-header-info">
+              <span className="venue-dates-tag">Sunday · 29 November 2026 · 6:30 PM Onwards</span>
+              <h3>{RECEPTION_VENUE.name}</h3>
+              <p style={{ fontSize: '13px', color: '#b97816', margin: '2px 0 6px' }}>{RECEPTION_VENUE.subtitle}</p>
+              <p className="venue-address-text">{RECEPTION_VENUE.address}</p>
+            </div>
+
+            <div className="map-iframe-wrapper">
+              <iframe
+                title="Bengaluru Reception Venue Map"
+                src={RECEPTION_VENUE.embedUrl}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+
+            <div className="venue-action-btns">
+              <a
+                className="action-btn btn-primary"
+                href={RECEPTION_VENUE.mapLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <NavigationArrow size={18} weight="bold" />
+                Open in Google Maps
+              </a>
+              <button
+                className="action-btn btn-secondary"
+                onClick={addReceptionToCalendar}
+              >
+                <CalendarBlank size={18} weight="bold" />
+                Add to Calendar
+              </button>
+            </div>
           </div>
-
-          {/* Active Venue Details */}
-          {activeVenue === 'bagalkot' && (
-            <motion.div
-              key="bagalkot"
-              className="venue-display-card"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <div className="venue-header-info">
-                <span className="venue-dates-tag">{VENUES.bagalkot.tag}</span>
-                <h3>{VENUES.bagalkot.name}</h3>
-                <p className="venue-address-text">{VENUES.bagalkot.address}</p>
-              </div>
-
-              <div className="map-iframe-wrapper">
-                <iframe
-                  title="Bagalkot Wedding Venue Map"
-                  src={VENUES.bagalkot.embedUrl}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-
-              <div className="venue-action-btns">
-                <a
-                  className="action-btn btn-primary"
-                  href={VENUES.bagalkot.mapLink}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <NavigationArrow size={18} weight="bold" />
-                  Open Wedding Map Link
-                </a>
-                <button
-                  className="action-btn btn-secondary"
-                  onClick={() => createCalendarInvite('wedding')}
-                >
-                  <CalendarBlank size={18} weight="bold" />
-                  Add Wedding to Calendar
-                </button>
-              </div>
-            </motion.div>
-          )}
-
-          {activeVenue === 'bengaluru' && (
-            <motion.div
-              key="bengaluru"
-              className="venue-display-card"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <div className="venue-header-info">
-                <span className="venue-dates-tag">{VENUES.bengaluru.tag}</span>
-                <h3>{VENUES.bengaluru.name}</h3>
-                <p className="venue-address-text">{VENUES.bengaluru.address}</p>
-              </div>
-
-              <div className="map-iframe-wrapper">
-                <iframe
-                  title="Bengaluru Reception Venue Map"
-                  src={VENUES.bengaluru.embedUrl}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-
-              <div className="venue-action-btns">
-                <a
-                  className="action-btn btn-primary"
-                  href={VENUES.bengaluru.mapLink}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <NavigationArrow size={18} weight="bold" />
-                  Open Reception Map Link
-                </a>
-                <button
-                  className="action-btn btn-secondary"
-                  onClick={() => createCalendarInvite('reception')}
-                >
-                  <CalendarBlank size={18} weight="bold" />
-                  Add Reception to Calendar
-                </button>
-              </div>
-            </motion.div>
-          )}
         </div>
       </section>
 
-      {/* INTERACTIVE RSVP SECTION FOR GUESTS */}
+      {/* INTERACTIVE RSVP SECTION FOR RECEPTION */}
       <section className="rsvp-section">
         <div className="rsvp-box">
           <p className="section-kicker" style={{ textAlign: 'center' }}>Warmest Welcome</p>
-          <h2>RSVP For Our Guests</h2>
+          <h2>RSVP For Sangeet & Reception</h2>
           <p className="rsvp-subtitle">
-            Your blessings and presence mean the world to us. Please let us know if you can join our celebration!
+            Your presence will make our evening truly unforgettable. Please let us know if you can join us on Sunday, 29th November!
           </p>
 
           {rsvpSubmitted ? (
@@ -935,7 +765,7 @@ function App() {
               <CheckCircle size={42} weight="fill" color="#166534" />
               <h4>Thank You, {rsvpName || 'Dear Guest'}!</h4>
               <p style={{ margin: '8px 0', color: '#14532d' }}>
-                Your RSVP has been joyfully recorded. We cannot wait to celebrate with you!
+                Your RSVP has been joyfully recorded. We look forward to celebrating with you at AKIRA ORCHARDS!
               </p>
               <button
                 className="action-btn btn-whatsapp"
@@ -943,7 +773,7 @@ function App() {
                 onClick={handleWhatsAppRSVP}
               >
                 <WhatsappLogo size={18} weight="fill" />
-                Also Send via WhatsApp
+                Send Confirmation on WhatsApp
               </button>
             </div>
           ) : (
@@ -972,26 +802,7 @@ function App() {
               </div>
 
               <div className="rsvp-form-group">
-                <label>Which Celebrations Will You Attend?</label>
-                <select
-                  className="rsvp-select"
-                  value={rsvpAttending}
-                  onChange={(e) => setRsvpAttending(e.target.value)}
-                >
-                  <option value="All Celebrations (Bagalkot & Bengaluru)">
-                    All Celebrations (Bagalkot & Bengaluru)
-                  </option>
-                  <option value="Engagement & Wedding (Nov 21 - 22 · Bagalkot)">
-                    Engagement & Wedding (Nov 21 - 22 · Bagalkot)
-                  </option>
-                  <option value="Sangeet & Reception (Nov 29 · Bengaluru)">
-                    Sangeet & Reception (Nov 29 · Bengaluru)
-                  </option>
-                </select>
-              </div>
-
-              <div className="rsvp-form-group">
-                <label>Total Number of Guests</label>
+                <label>Total Number of Guests Attending</label>
                 <select
                   className="rsvp-select"
                   value={rsvpGuests}
@@ -1009,7 +820,7 @@ function App() {
                 <label>Blessings & Warm Wishes for Lakshmi & Shrinivas</label>
                 <textarea
                   rows={3}
-                  placeholder="May Lord Venkateshwara and Goddess Mahalakshmi bless you both..."
+                  placeholder="Congratulations Lakshmi & Shrinivas! Can't wait to celebrate..."
                   className="rsvp-textarea"
                   value={rsvpMessage}
                   onChange={(e) => setRsvpMessage(e.target.value)}
@@ -1038,7 +849,7 @@ function App() {
       {/* FOOTER */}
       <footer>
         <img
-          src="/assets/divine-couple-srinivasa-lakshmi.jpg"
+          src={PRIMARY_DIVINE_HERO}
           alt="Divine couple background"
           className="footer-art-backdrop"
         />
@@ -1047,7 +858,7 @@ function App() {
           <p className="footer-invite-text">With Gratitude & Joy</p>
           <h2>Lakshmi & Shrinivas</h2>
           <span className="footer-date">
-            November 2026 · Bagalkot & Bengaluru
+            Sangeet & Reception · 29 November 2026 · Bengaluru
           </span>
           <p style={{ marginTop: '16px', fontSize: '12px', color: '#eed6aa', fontStyle: 'italic' }}>
             ॥ ಶ್ರೀ ಲಕ್ಷ್ಮೀ ವೆಂಕಟೇಶ್ವರಾಯ ನಮಃ ॥
@@ -1080,7 +891,7 @@ function App() {
               <p>
                 May Lord Srinivasa and Goddess Mahalakshmi shower eternal grace, boundless joy,
                 health, prosperity, and everlasting harmony upon <strong>Lakshmi Gangal</strong> and{' '}
-                <strong>Shrinivas Sawkar</strong> as they unite in holy matrimony.
+                <strong>Shrinivas Sawkar</strong>.
               </p>
               <button
                 className="close-modal-btn"
