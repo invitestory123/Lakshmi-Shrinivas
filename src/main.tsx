@@ -25,8 +25,8 @@ const RECEPTION_TARGET_DATE = new Date('2026-11-29T18:30:00+05:30');
 const MUSIC_MP4_SRC = '/assets/music.mp4';
 const FALLBACK_MUSIC_SRC = '/assets/wedding-music.mp3';
 
-// Main God & Goddess Photo
-const PRIMARY_DIVINE_HERO = '/assets/divine-couple-srinivasa-lakshmi.jpg';
+// Hero Couple Photo (Romantic Sunset Meadow)
+const HERO_COUPLE_PHOTO = '/assets/gallery/gallery-2-sunset-meadow.jpg';
 
 // Venue Information
 const RECEPTION_VENUE = {
@@ -68,31 +68,6 @@ const GALLERY_PHOTOS = [
     caption: 'Together along life’s most beautiful path',
     badge: 'Side By Side',
     src: '/assets/gallery/gallery-4-romantic-walk.jpg'
-  }
-];
-
-// Evening Festivities Timeline
-const RECEPTION_SCHEDULE = [
-  {
-    number: '01',
-    name: 'Sangeet & Melodies',
-    time: '6:30 PM Onwards',
-    note: 'An enchanting musical beginning with lively rhythms, dance, and joyous celebrations.',
-    icon: '♫'
-  },
-  {
-    number: '02',
-    name: 'Reception & Felicitations',
-    time: '7:30 PM Onwards',
-    note: 'Warm welcomes, celebratory toasts, photography, and blessings with our beloved guests.',
-    icon: '✧'
-  },
-  {
-    number: '03',
-    name: 'Grand Celebration Dinner',
-    time: '8:00 PM Onwards',
-    note: 'A lavish gourmet culinary banquet served amidst an open-air starry garden.',
-    icon: '❋'
   }
 ];
 
@@ -196,7 +171,7 @@ function ScratchCardDate() {
     ctx.font = '600 11px Marcellus, serif';
     ctx.fillText('SCRATCH TO REVEAL RECEPTION DATE', rect.width / 2, rect.height / 2 - 12);
     ctx.font = '28px serif';
-    ctx.fillText('🪷', rect.width / 2, rect.height / 2 + 24);
+    ctx.fillText('✨', rect.width / 2, rect.height / 2 + 24);
   }, []);
 
   const handleScratch = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -245,13 +220,13 @@ function ScratchCardDate() {
         />
       </div>
       <p className="scratch-instruction">
-        {revealed ? 'We eagerly await your joyful presence ♡' : 'Gently swipe or rub to reveal the reception date'}
+        {revealed ? 'We eagerly await your joyful presence ♡' : 'Gently swipe or rub to reveal the date'}
       </p>
     </section>
   );
 }
 
-// Falling Lotus Petals Generator
+// Falling Flower Petals & Gold Sparkles Generator
 function PetalShower() {
   const petals = useMemo(() => {
     return Array.from({ length: 18 }, (_, i) => ({
@@ -260,7 +235,7 @@ function PetalShower() {
       delay: `${(i * 0.75) % 8}s`,
       duration: `${6 + (i % 5) * 1.5}s`,
       size: `${16 + (i % 4) * 6}px`,
-      symbol: i % 3 === 0 ? '🌸' : i % 3 === 1 ? '🪷' : '✨'
+      symbol: i % 3 === 0 ? '🌸' : i % 3 === 1 ? '✨' : '💖'
     }));
   }, []);
 
@@ -288,7 +263,6 @@ function PetalShower() {
 function App() {
   const [hasOpened, setHasOpened] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [showBlessingModal, setShowBlessingModal] = useState(false);
   const [selectedPhotoModal, setSelectedPhotoModal] = useState<typeof GALLERY_PHOTOS[0] | null>(null);
 
   // Audio Reference
@@ -348,10 +322,6 @@ function App() {
         console.log('Autoplay deferred until user interaction:', err);
       });
     }
-  };
-
-  const triggerDarshanBlessings = () => {
-    setShowBlessingModal(true);
   };
 
   const handleWhatsAppRSVP = () => {
@@ -420,13 +390,12 @@ function App() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="welcome-card-box">
-              <span className="mantra-kannada">॥ ಶ್ರೀ ಲಕ್ಷ್ಮೀ ವೆಂಕಟೇಶ್ವರ ಪ್ರಸನ್ನ ॥</span>
               <small>Together with our families</small>
               <h1>
                 Lakshmi <em>&</em> Shrinivas
               </h1>
               <p className="invite-text">cordially invite you to celebrate our</p>
-              <h2 style={{ fontFamily: 'Italiana, serif', fontSize: '26px', color: '#b83350', margin: '4px 0 14px' }}>
+              <h2 style={{ fontFamily: 'Italiana, serif', fontSize: '28px', color: '#b83350', margin: '4px 0 14px' }}>
                 Sangeet & Reception
               </h2>
 
@@ -452,58 +421,43 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION WITH GOD & GODDESS PHOTO & MOVEMENT ANIMATION */}
+      {/* HERO SECTION WITH ROMANTIC COUPLE PHOTO & AMBIANCE */}
       <section className="hero">
         {/* Background Atmosphere */}
         <div className="hero-backdrop" aria-hidden="true">
           <img
-            src={PRIMARY_DIVINE_HERO}
-            alt="Divine temple sanctuary backdrop"
+            src={HERO_COUPLE_PHOTO}
+            alt="Lakshmi and Shrinivas background atmosphere"
             className="hero-backdrop-img"
           />
           <div className="hero-overlay-scrim" />
         </div>
 
-        {/* Dynamic Divine Aura behind crowns */}
-        <div className="divine-aura-glow" aria-hidden="true" />
-
-        {/* Glowing Beam along sacred Thirunamam */}
-        <div className="namam-ray" aria-hidden="true" />
-
-        {/* Flickering Temple Deepas */}
-        <div className="hanging-deepas" aria-hidden="true">
-          <span className="deepa-glow deepa-left-top" />
-          <span className="deepa-glow deepa-right-top" />
-          <span className="deepa-glow deepa-left-mid" />
-          <span className="deepa-glow deepa-right-mid" />
-        </div>
-
-        {/* Cascading Lotus Petal Blessings */}
+        {/* Floating Petals & Glinting Stars */}
         <PetalShower />
 
-        {/* Top Blessing Shloka & Names */}
+        {/* Top Header & Names */}
         <motion.div
           className="hero-content"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.2 }}
         >
-          <p className="divine-shloka">॥ ಶ್ರೀ ಲಕ್ಷ್ಮೀ ವೆಂಕಟೇಶ ಪ್ರಸನ್ನ ॥</p>
-          <p className="parents-blessing">With the divine blessings of our families</p>
+          <p className="parents-blessing">Together with our families</p>
           <h1 className="hero-names">
             Lakshmi <span className="and">&</span> Shrinivas
           </h1>
           <div className="hero-dates-strip">
             <i />
-            <span>Sangeet & Reception · 29 November 2026</span>
+            <span>Sangeet & Reception · Sunday, 29 November 2026</span>
             <i />
           </div>
           <div className="hero-locations">Bengaluru, Karnataka</div>
         </motion.div>
 
-        {/* Main Divine Portrait Frame with Interactive Movement & Shimmer */}
+        {/* Main Romantic Couple Portrait Frame */}
         <div
-          className="divine-art-stage"
+          className="hero-couple-stage"
           onMouseMove={handleStageMouseMove}
           onMouseLeave={handleStageMouseLeave}
           style={{
@@ -512,34 +466,12 @@ function App() {
               : `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`
           }}
         >
-          <div className="divine-art-inner">
+          <div className="hero-couple-inner">
             <img
-              src={PRIMARY_DIVINE_HERO}
-              alt="Lord Srinivasa and Goddess Lakshmi"
-              className="divine-main-img"
+              src={HERO_COUPLE_PHOTO}
+              alt="Lakshmi and Shrinivas in golden sunset meadow"
+              className="hero-couple-img"
             />
-
-            {/* Frame Corner Ornaments */}
-            <span className="frame-corner fc-tl" />
-            <span className="frame-corner fc-tr" />
-            <span className="frame-corner fc-bl" />
-            <span className="frame-corner fc-br" />
-
-            {/* Twinkling Jewels & Crown Sparkles */}
-            <span className="twinkle-star ts-crown-shrinivas"><Sparkle weight="fill" /></span>
-            <span className="twinkle-star ts-crown-lakshmi"><Sparkle weight="fill" /></span>
-            <span className="twinkle-star ts-namam"><Sparkle weight="fill" /></span>
-            <span className="twinkle-star ts-lotus-flower"><FlowerLotus weight="fill" /></span>
-
-            {/* Interactive "Touch for Divine Blessings" Pill */}
-            <button
-              className="darshan-badge"
-              onClick={triggerDarshanBlessings}
-              title="Touch for Divine Blessings"
-            >
-              <Sparkle size={14} weight="fill" color="#ffd54f" />
-              <span>Seek Divine Blessings · ಆಶೀರ್ವಾದ</span>
-            </button>
           </div>
         </div>
 
@@ -550,7 +482,7 @@ function App() {
         </div>
       </section>
 
-      {/* FULL-PAGE SANGEET & RECEPTION SHOWCASE (100% Highlighted) */}
+      {/* FULL-PAGE SANGEET & RECEPTION SHOWCASE */}
       <section className="reception-fullpage-showcase" id="reception-showcase">
         <div className="reception-glow-bg" />
         <div className="reception-sparkle-stars" />
@@ -576,21 +508,7 @@ function App() {
             An enchanting evening of music, joyful dance & celebratory feast
           </p>
 
-          {/* Event Time & Venue Box */}
-          <div className="reception-details-box">
-            <div className="reception-date-row">
-              <i />
-              <span>Sunday · 29 November 2026</span>
-              <i />
-            </div>
-            <span className="reception-time-badge">6:30 PM Onwards</span>
-
-            <h3 className="reception-venue-title">{RECEPTION_VENUE.name}</h3>
-            <p className="reception-venue-sub">{RECEPTION_VENUE.subtitle}</p>
-            <p className="reception-address">{RECEPTION_VENUE.address}</p>
-          </div>
-
-          {/* Dedicated Action Buttons */}
+          {/* Dedicated Action Buttons (Repeated address box removed as requested!) */}
           <div className="reception-actions">
             <a
               className="action-btn btn-primary"
@@ -652,54 +570,6 @@ function App() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* EVENING PROGRAM & SCHEDULE */}
-      <section className="events-section">
-        <div style={{ textAlign: 'center' }}>
-          <p className="section-kicker">Evening Festivities</p>
-          <h2 className="section-heading">Celebration Program</h2>
-          <p style={{ color: '#7b4f2c', maxWidth: '520px', margin: '0 auto' }}>
-            An evening crafted with melodies, congratulations, and delightful dining.
-          </p>
-        </div>
-
-        <div className="events-wrapper">
-          {RECEPTION_SCHEDULE.map((item, idx) => (
-            <motion.div
-              key={item.name}
-              className={`event-card ${idx === 0 ? 'featured-event' : ''}`}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-            >
-              <div className="event-badge-strip">
-                <span className="event-badge-num">{item.number}</span>
-                <span className="event-badge-tag">{item.time}</span>
-              </div>
-              <h3>
-                {item.icon} {item.name}
-              </h3>
-              <p className="event-note">{item.note}</p>
-
-              <dl className="event-meta-grid">
-                <div className="meta-item">
-                  <dt>Date</dt>
-                  <dd>Sunday, 29 November 2026</dd>
-                </div>
-                <div className="meta-item">
-                  <dt>Timing</dt>
-                  <dd>{item.time}</dd>
-                </div>
-                <div className="meta-item">
-                  <dt>Venue</dt>
-                  <dd>{RECEPTION_VENUE.name}, Bengaluru</dd>
-                </div>
-              </dl>
-            </motion.div>
-          ))}
         </div>
       </section>
 
@@ -848,61 +718,12 @@ function App() {
 
       {/* FOOTER */}
       <footer>
-        <img
-          src={PRIMARY_DIVINE_HERO}
-          alt="Divine couple background"
-          className="footer-art-backdrop"
-        />
         <div className="footer-content">
           <FlowerLotus size={32} weight="thin" color="#f4d58d" />
           <p className="footer-invite-text">With Gratitude & Joy</p>
           <h2>Lakshmi & Shrinivas</h2>
-          <span className="footer-date">
-            Sangeet & Reception · 29 November 2026 · Bengaluru
-          </span>
-          <p style={{ marginTop: '16px', fontSize: '12px', color: '#eed6aa', fontStyle: 'italic' }}>
-            ॥ ಶ್ರೀ ಲಕ್ಷ್ಮೀ ವೆಂಕಟೇಶ್ವರಾಯ ನಮಃ ॥
-          </p>
         </div>
       </footer>
-
-      {/* BLESSINGS POPUP MODAL */}
-      <AnimatePresence>
-        {showBlessingModal && (
-          <motion.div
-            className="blessings-modal-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowBlessingModal(false)}
-          >
-            <motion.div
-              className="blessings-modal-box"
-              initial={{ scale: 0.85, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.85, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <FlowerLotus size={40} weight="fill" color="#c98b27" />
-              <span className="mantra-kannada" style={{ marginTop: '10px' }}>
-                ॥ ಶ್ರೀ ಲಕ್ಷ್ಮೀ ವೆಂಕಟೇಶ್ವರ ಪ್ರಸನ್ನ ॥
-              </span>
-              <h3>Divine Ashirvada</h3>
-              <p>
-                May Lord Srinivasa and Goddess Mahalakshmi shower eternal grace, boundless joy,
-                health, prosperity, and everlasting harmony upon <strong>Lakshmi Gangal</strong> and{' '}
-                <strong>Shrinivas Sawkar</strong>.
-              </p>
-              <button
-                className="close-modal-btn"
-                onClick={() => setShowBlessingModal(false)}
-              >
-                Accept Blessings · ಧನ್ಯವಾದಗಳು
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* FULLSCREEN PHOTO LIGHTBOX MODAL */}
       <AnimatePresence>
