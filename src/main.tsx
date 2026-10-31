@@ -4,7 +4,6 @@ import { motion, AnimatePresence, useReducedMotion, useScroll } from 'motion/rea
 import {
   CalendarBlank,
   MapPin,
-  MusicNotes,
   SpeakerHigh,
   SpeakerSlash,
   FlowerLotus,
@@ -12,21 +11,23 @@ import {
   ArrowDown,
   Check,
   Heart,
-  EnvelopeSimple,
-  PaperPlaneTilt,
   WhatsappLogo,
   CheckCircle,
-  NavigationArrow
+  NavigationArrow,
+  Images,
+  X,
+  Eye
 } from '@phosphor-icons/react';
 import './styles.css';
 
 // Auspicious Wedding Target Date (Muhurtham)
 const WEDDING_TARGET = new Date('2026-11-22T09:30:00+05:30');
 
-// Audio Track
-const WEDDING_AUDIO_SRC = '/assets/wedding-music.mp3';
+// Music Sources (User requested music.mp4 from folder)
+const MUSIC_MP4_SRC = '/assets/music.mp4';
+const FALLBACK_MUSIC_SRC = '/assets/wedding-music.mp3';
 
-// Artwork Assets
+// Sacred Temple Artworks
 const ARTWORKS = [
   {
     id: 'srinivasa-lakshmi',
@@ -51,6 +52,38 @@ const ARTWORKS = [
     badge: 'Wedding Rituals',
     src: '/assets/traditional-kalyana-homa.jpg',
     description: 'Traditional painting of Lord Vishnu and Goddess Jaya Lakshmi around the sacred wedding fire and deepas.'
+  }
+];
+
+// Couple Photo Gallery
+const GALLERY_PHOTOS = [
+  {
+    id: 'red-glamour',
+    title: 'Royalty & Grace',
+    caption: 'Dressed in radiant smiles and vibrant red',
+    badge: 'Lakshmi & Shrinivas',
+    src: '/assets/gallery/gallery-1-red-glamour.jpg'
+  },
+  {
+    id: 'sunset-meadow',
+    title: 'Golden Sunset Vows',
+    caption: 'Hand in hand beneath the eternal evening skies',
+    badge: 'Moments Forever',
+    src: '/assets/gallery/gallery-2-sunset-meadow.jpg'
+  },
+  {
+    id: 'picnic-laughter',
+    title: 'Joyful Laughter & Blossoms',
+    caption: 'Playful moments, bubbles, and boundless joy',
+    badge: 'Pure Happiness',
+    src: '/assets/gallery/gallery-3-picnic-laughter.jpg'
+  },
+  {
+    id: 'romantic-walk',
+    title: 'Walking Into Forever',
+    caption: 'Together along life’s most beautiful path',
+    badge: 'Side By Side',
+    src: '/assets/gallery/gallery-4-romantic-walk.jpg'
   }
 ];
 
@@ -119,7 +152,7 @@ const VENUES = {
     tag: 'Bengaluru Celebrations · 29 November 2026',
     address: '#73/1, Jarkabande Kaval, Yelahanka Hobli, Via Attur Post, Bengaluru 560 106',
     mapLink: 'https://maps.app.goo.gl/i9owwkGY7QZJa6sj7?g_st=iw',
-    embedUrl: 'https://www.google.com/maps?q=Akira+Orchards,+Yelahanka,+Ramagondanahalli,+Bengaluru,+Karnataka+560089&output=embed',
+    embedUrl: 'https://www.google.com/maps?q=Akira+Orchards,+Yelahanka,+Ramagondanahalli,+Bengaluru,+Karnataka 560089&output=embed',
     eventsHeld: 'Sangeet Musical Evening & Grand Reception Dinner'
   }
 };
@@ -347,6 +380,7 @@ function App() {
   const [activeVenue, setActiveVenue] = useState<'bagalkot' | 'bengaluru'>('bagalkot');
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [showBlessingModal, setShowBlessingModal] = useState(false);
+  const [selectedPhotoModal, setSelectedPhotoModal] = useState<typeof GALLERY_PHOTOS[0] | null>(null);
 
   // Audio Reference
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -365,7 +399,7 @@ function App() {
   const { scrollYProgress } = useScroll();
   const reduceMotion = useReducedMotion();
 
-  // Find the current active hero artwork
+  // Active Hero Artwork
   const currentHeroArtwork = ARTWORKS.find((a) => a.id === selectedHeroArt) || ARTWORKS[0];
 
   // Mouse move tilt effect
@@ -381,7 +415,7 @@ function App() {
     setTilt({ x: 0, y: 0 });
   };
 
-  // Toggle Audio Play / Pause
+  // Toggle Music Play / Pause
   const toggleMusic = () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -402,7 +436,7 @@ function App() {
     setHasOpened(true);
     const audio = audioRef.current;
     if (audio) {
-      audio.volume = 0.75;
+      audio.volume = 0.85;
       audio.play().then(() => {
         setIsAudioPlaying(true);
       }).catch((err) => {
@@ -438,24 +472,27 @@ function App() {
 
   return (
     <main>
-      {/* Background Wedding Music Audio Element */}
+      {/* Background Wedding Music Audio Element (Using music.mp4 from workspace) */}
       <audio
         ref={audioRef}
-        src={WEDDING_AUDIO_SRC}
         preload="auto"
         loop
         onPlay={() => setIsAudioPlaying(true)}
         onPause={() => setIsAudioPlaying(false)}
-      />
+      >
+        <source src={MUSIC_MP4_SRC} type="audio/mp4" />
+        <source src={MUSIC_MP4_SRC} type="video/mp4" />
+        <source src={FALLBACK_MUSIC_SRC} type="audio/mpeg" />
+      </audio>
 
       {/* Scroll indicator bar */}
       <motion.div className="scroll-progress" style={{ scaleX: scrollYProgress }} />
 
-      {/* Floating Auspicious Music Controller Bar */}
+      {/* Floating Music Controller Bar */}
       <button
         className={`ambient-bar ${!isAudioPlaying ? 'muted' : ''}`}
         onClick={toggleMusic}
-        aria-label="Toggle auspicious wedding music"
+        aria-label="Toggle wedding music"
         title={isAudioPlaying ? 'Mute Wedding Music' : 'Play Wedding Music'}
       >
         {isAudioPlaying ? (
@@ -463,7 +500,7 @@ function App() {
         ) : (
           <SpeakerSlash size={18} weight="bold" color="#e0a33c" />
         )}
-        <span>{isAudioPlaying ? 'Mangala Vadya Playing' : 'Play Music'}</span>
+        <span>{isAudioPlaying ? 'Wedding Music Playing' : 'Play Music'}</span>
         <div className="audio-waves" aria-hidden="true">
           <span /><span /><span /><span />
         </div>
@@ -501,7 +538,7 @@ function App() {
                 <b>Open Sacred Invitation</b>
               </motion.button>
               <div style={{ marginTop: '12px', fontSize: '10.5px', color: '#8c5b2a', letterSpacing: '0.08em' }}>
-                ♫ Tap to open with auspicious music
+                ♫ Tap to open with music
               </div>
             </div>
           </motion.div>
@@ -626,6 +663,38 @@ function App() {
               <b>{art.badge}</b>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* COUPLE PHOTO GALLERY SECTION (Newly Added With User Photos!) */}
+      <section className="gallery-section">
+        <div className="gallery-container">
+          <p className="section-kicker">Moments of Togetherness</p>
+          <h2 className="section-heading">Our Love Story in Frames</h2>
+          <p style={{ color: '#6e482b', maxWidth: '580px', margin: '0 auto', fontSize: '15.5px' }}>
+            From shared dreams and laughter to the beginning of our forever journey. Click on any picture to view full size.
+          </p>
+
+          <div className="gallery-grid">
+            {GALLERY_PHOTOS.map((photo) => (
+              <motion.div
+                key={photo.id}
+                className="gallery-card"
+                onClick={() => setSelectedPhotoModal(photo)}
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="gallery-img-box">
+                  <span className="gallery-badge">{photo.badge}</span>
+                  <img src={photo.src} alt={photo.title} loading="lazy" />
+                </div>
+                <div className="gallery-caption">
+                  <h4>{photo.title}</h4>
+                  <p>{photo.caption}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -1019,6 +1088,44 @@ function App() {
               >
                 Accept Blessings · ಧನ್ಯವಾದಗಳು
               </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* FULLSCREEN PHOTO LIGHTBOX MODAL */}
+      <AnimatePresence>
+        {selectedPhotoModal && (
+          <motion.div
+            className="lightbox-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedPhotoModal(null)}
+          >
+            <motion.div
+              className="lightbox-content"
+              initial={{ scale: 0.88, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.88, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="lightbox-close-btn"
+                onClick={() => setSelectedPhotoModal(null)}
+                aria-label="Close photo"
+              >
+                <X size={20} weight="bold" />
+              </button>
+              <img
+                src={selectedPhotoModal.src}
+                alt={selectedPhotoModal.title}
+                className="lightbox-img"
+              />
+              <div className="lightbox-info">
+                <h3>{selectedPhotoModal.title}</h3>
+                <p>{selectedPhotoModal.caption}</p>
+              </div>
             </motion.div>
           </motion.div>
         )}
