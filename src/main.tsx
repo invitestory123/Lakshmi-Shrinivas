@@ -20,8 +20,11 @@ import {
 } from '@phosphor-icons/react';
 import './styles.css';
 
-// Auspicious Dates
+// Auspicious Wedding Target Date (Muhurtham)
 const WEDDING_TARGET = new Date('2026-11-22T09:30:00+05:30');
+
+// Audio Track
+const WEDDING_AUDIO_SRC = '/assets/wedding-music.mp3';
 
 // Artwork Assets
 const ARTWORKS = [
@@ -120,79 +123,6 @@ const VENUES = {
     eventsHeld: 'Sangeet Musical Evening & Grand Reception Dinner'
   }
 };
-
-// Web Audio Auspicious Ambient Drone (Harmonic Tanpura / Temple Flute Tone)
-class AmbientAudioController {
-  private ctx: AudioContext | null = null;
-  private gainNode: GainNode | null = null;
-  private isPlaying = false;
-
-  start() {
-    if (this.isPlaying) return;
-    try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      this.ctx = new AudioCtx();
-      this.gainNode = this.ctx.createGain();
-      this.gainNode.gain.setValueAtTime(0.01, this.ctx.currentTime);
-      this.gainNode.gain.exponentialRampToValueAtTime(0.08, this.ctx.currentTime + 3);
-      this.gainNode.connect(this.ctx.destination);
-
-      // Root harmonic notes (Sa - Pa - Sa in Indian Classical Music, C# / 138.59 Hz)
-      const freqs = [138.59, 207.65, 277.18, 415.30];
-      freqs.forEach((freq, idx) => {
-        if (!this.ctx || !this.gainNode) return;
-        const osc = this.ctx.createOscillator();
-        const oscGain = this.ctx.createGain();
-        osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
-        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-
-        // Gentle breathing modulation
-        const lfo = this.ctx.createOscillator();
-        lfo.frequency.setValueAtTime(0.2 + idx * 0.05, this.ctx.currentTime);
-        const lfoGain = this.ctx.createGain();
-        lfoGain.gain.setValueAtTime(0.03, this.ctx.currentTime);
-        lfo.connect(lfoGain);
-        lfoGain.connect(oscGain.gain);
-
-        oscGain.gain.setValueAtTime(0.05 / (idx + 1), this.ctx.currentTime);
-        osc.connect(oscGain);
-        oscGain.connect(this.gainNode);
-
-        osc.start();
-        lfo.start();
-      });
-
-      this.isPlaying = true;
-    } catch (e) {
-      console.warn('Audio not allowed yet:', e);
-    }
-  }
-
-  stop() {
-    if (this.ctx && this.isPlaying) {
-      if (this.gainNode) {
-        this.gainNode.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 1);
-      }
-      setTimeout(() => {
-        this.ctx?.close();
-        this.ctx = null;
-        this.isPlaying = false;
-      }, 1000);
-    }
-  }
-
-  toggle(): boolean {
-    if (this.isPlaying) {
-      this.stop();
-      return false;
-    } else {
-      this.start();
-      return true;
-    }
-  }
-}
-
-const audioController = new AmbientAudioController();
 
 // Calendar generator helper
 function createCalendarInvite(type: 'wedding' | 'reception' | 'all') {
@@ -417,7 +347,9 @@ function App() {
   const [activeVenue, setActiveVenue] = useState<'bagalkot' | 'bengaluru'>('bagalkot');
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [showBlessingModal, setShowBlessingModal] = useState(false);
-  const [blessingHearts, setBlessingHearts] = useState(false);
+
+  // Audio Reference
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Parallax Tilt State
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -449,15 +381,38 @@ function App() {
     setTilt({ x: 0, y: 0 });
   };
 
-  const toggleAmbientAudio = () => {
-    const state = audioController.toggle();
-    setIsAudioPlaying(state);
+  // Toggle Audio Play / Pause
+  const toggleMusic = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (isAudioPlaying) {
+      audio.pause();
+      setIsAudioPlaying(false);
+    } else {
+      audio.play().then(() => {
+        setIsAudioPlaying(true);
+      }).catch((err) => {
+        console.warn('Audio play failed:', err);
+      });
+    }
+  };
+
+  // Start music upon opening invitation
+  const handleOpenInvitation = () => {
+    setHasOpened(true);
+    const audio = audioRef.current;
+    if (audio) {
+      audio.volume = 0.75;
+      audio.play().then(() => {
+        setIsAudioPlaying(true);
+      }).catch((err) => {
+        console.log('Autoplay deferred until user interaction:', err);
+      });
+    }
   };
 
   const triggerDarshanBlessings = () => {
     setShowBlessingModal(true);
-    setBlessingHearts(true);
-    setTimeout(() => setBlessingHearts(false), 3000);
   };
 
   const handleWhatsAppRSVP = () => {
@@ -483,17 +438,32 @@ function App() {
 
   return (
     <main>
+      {/* Background Wedding Music Audio Element */}
+      <audio
+        ref={audioRef}
+        src={WEDDING_AUDIO_SRC}
+        preload="auto"
+        loop
+        onPlay={() => setIsAudioPlaying(true)}
+        onPause={() => setIsAudioPlaying(false)}
+      />
+
       {/* Scroll indicator bar */}
       <motion.div className="scroll-progress" style={{ scaleX: scrollYProgress }} />
 
-      {/* Floating Ambient Music Controller */}
+      {/* Floating Auspicious Music Controller Bar */}
       <button
         className={`ambient-bar ${!isAudioPlaying ? 'muted' : ''}`}
-        onClick={toggleAmbientAudio}
-        aria-label="Toggle auspicious ambient music"
+        onClick={toggleMusic}
+        aria-label="Toggle auspicious wedding music"
+        title={isAudioPlaying ? 'Mute Wedding Music' : 'Play Wedding Music'}
       >
-        {isAudioPlaying ? <SpeakerHigh size={15} weight="bold" /> : <SpeakerSlash size={15} weight="bold" />}
-        <span>{isAudioPlaying ? 'Auspicious Music' : 'Play Music'}</span>
+        {isAudioPlaying ? (
+          <SpeakerHigh size={18} weight="fill" color="#ffd54f" />
+        ) : (
+          <SpeakerSlash size={18} weight="bold" color="#e0a33c" />
+        )}
+        <span>{isAudioPlaying ? 'Mangala Vadya Playing' : 'Play Music'}</span>
         <div className="audio-waves" aria-hidden="true">
           <span /><span /><span /><span />
         </div>
@@ -523,18 +493,16 @@ function App() {
               <motion.button
                 className="open-card-btn"
                 whileTap={{ scale: 0.96 }}
-                onClick={() => {
-                  setHasOpened(true);
-                  // Start gentle ambient audio on user click if not started
-                  audioController.start();
-                  setIsAudioPlaying(true);
-                }}
+                onClick={handleOpenInvitation}
               >
                 <span className="btn-seal-icon">
                   <FlowerLotus size={18} weight="fill" />
                 </span>
                 <b>Open Sacred Invitation</b>
               </motion.button>
+              <div style={{ marginTop: '12px', fontSize: '10.5px', color: '#8c5b2a', letterSpacing: '0.08em' }}>
+                ♫ Tap to open with auspicious music
+              </div>
             </div>
           </motion.div>
         )}
