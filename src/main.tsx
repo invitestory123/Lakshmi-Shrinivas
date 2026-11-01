@@ -38,22 +38,8 @@ const RECEPTION_VENUE = {
   embedUrl: 'https://www.google.com/maps?q=Akira+Orchards,+Yelahanka,+Ramagondanahalli,+Bengaluru,+Karnataka+560089&output=embed'
 };
 
-// Joyful Couple Photos for Gallery & Spotlight
+// Joyful Couple Photos for Gallery (Exclusive moments — Hero and Showcase photos omitted here)
 const GALLERY_PHOTOS = [
-  {
-    id: 'red-glamour',
-    title: 'A Royal Celebration',
-    caption: 'Dressed in radiant smiles and vibrant red',
-    badge: 'Lakshmi & Shrinivas',
-    src: '/assets/gallery/gallery-1-red-glamour.jpg'
-  },
-  {
-    id: 'sunset-meadow',
-    title: 'Golden Sunset Vows',
-    caption: 'Hand in hand beneath the eternal evening skies',
-    badge: 'Moments Forever',
-    src: '/assets/gallery/gallery-2-sunset-meadow.jpg'
-  },
   {
     id: 'picnic-laughter',
     title: 'Joyful Laughter & Blossoms',
